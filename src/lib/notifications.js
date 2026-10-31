@@ -52,6 +52,7 @@ export async function notifyRankOvertaken({ newRank, previousRank }) {
         id: Date.now() % 1000000,
         title: 'حد تخطاك في الترتيب! 🏆',
         body: `نزل ترتيبك من المركز ${previousRank} للمركز ${newRank} — ارجع العب وخد مكانك تاني!`,
+        largeIcon: 'ic_notif_large',
         schedule: { at: new Date(Date.now() + 500) },
       }],
     });
@@ -71,6 +72,7 @@ export async function notifyRankImproved({ newRank, previousRank }) {
         id: Date.now() % 1000000,
         title: 'تخطيت حد في الترتيب! 🎉',
         body: `طلعت من المركز ${previousRank} للمركز ${newRank} — كمّل كده وحافظ على مكانك!`,
+        largeIcon: 'ic_notif_large',
         schedule: { at: new Date(Date.now() + 500) },
       }],
     });
@@ -104,6 +106,7 @@ export async function scheduleInactivityReminder() {
         id: INACTIVITY_REMINDER_ID,
         title: 'وحشتنا! 🏺',
         body: 'يومين ولا لعبت... ارجع كمّل مغامرتك في مصر القديمة',
+        largeIcon: 'ic_notif_large',
         schedule: { at: new Date(Date.now() + INACTIVITY_DELAY_MS) },
       }],
     });

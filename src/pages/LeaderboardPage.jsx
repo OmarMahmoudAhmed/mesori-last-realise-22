@@ -124,7 +124,7 @@ function LeaderboardPage() {
     const previous = isLiveUpdate ? myLastKnownRef.current : getLastSeenRank(session.user.id);
     const change = computeRankChange(previous, current);
 
-    if (change) {
+    if (change && change.rankDelta !== 0) {
       setRankChange({ ...change, id: Date.now() }); // id فريد عشان الشارة تعمل أنيميشن من جديد كل مرة
 
       if (isLiveUpdate) {
