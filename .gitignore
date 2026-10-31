@@ -1,0 +1,33 @@
+# dependencies / build output
+node_modules/
+dist/
+
+# secrets (never commit)
+*.keystore
+*.jks
+keystore.properties
+google-services.json
+service-account*.json
+
+# Android
+android/.gradle/
+android/build/
+android/app/build/
+android/app/release/
+android/local.properties
+android/captures/
+*.apk
+*.aab
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.log
+.vercel
+
+# env files — ignore everything except the placeholder template
+.env
+.env.*
+!.env.example

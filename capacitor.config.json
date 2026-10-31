@@ -1,0 +1,28 @@
+{
+  "appId": "com.omarmahmoud.mesori",
+  "appName": "Mesori",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  },
+  "plugins": {
+    "LocalNotifications": {
+      "smallIcon": "ic_stat_mesori",
+      "iconColor": "#488AC7"
+    },
+    "SocialLogin": {
+      "providers": {
+        "google": true,
+        "facebook": false,
+        "apple": false,
+        "twitter": false
+      },
+      "logLevel": 1
+    },
+    "SystemBars": {
+      "style": "LIGHT",
+      "insetsHandling": "css",
+      "hidden": false
+    }
+  }
+}
