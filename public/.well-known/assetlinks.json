@@ -1,0 +1,10 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "android_app",
+    "package_name": "com.omarmahmoud.mesori",
+    "sha256_cert_fingerprints": [
+      "A9:33:01:EA:C6:97:FF:4D:14:A4:0E:92:9A:78:1A:28:5D:52:46:67:E7:A5:5C:8E:1C:09:86:77:0C:0F:14:76"
+    ]
+  }
+}]

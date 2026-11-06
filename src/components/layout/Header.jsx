@@ -47,7 +47,7 @@ function Header({ showBack = false, showNotifications = false, showVsIcon = fals
         px-4 pb-3
         relative z-10
       "
-      style={{ paddingTop: 'max(env(safe-area-inset-top, 0px), 0.75rem)' }}
+      style={{ paddingTop: 'calc(env(safe-area-inset-top, 0px) + 1.5rem)' }}
     >
       {/* ===== الزر الأيسر (رجوع أو جرس الإشعارات) ===== */}
       <div className="justify-self-start">

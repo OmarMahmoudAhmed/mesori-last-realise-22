@@ -5,6 +5,7 @@ dist/
 # secrets (never commit)
 *.keystore
 *.jks
+*.pem
 keystore.properties
 google-services.json
 service-account*.json
