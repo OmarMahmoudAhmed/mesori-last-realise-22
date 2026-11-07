@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>لوحة تحكم ميسوري | Mesori Analytics Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <style>
+    :root {
+      --bg-sand: #F4E2BC;
+      --card-sand: #FFF8EA;
+      --brown-primary: #3D2B1F;
+      --red-accent: #7A1F1F;
+      --gold-accent: #C8922A;
+      --border-color: #E2C99B;
+    }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Cairo', sans-serif;
+    }
+    body {
+      background-color: var(--bg-sand);
+      color: var(--brown-primary);
+      min-height: 100vh;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container {
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      padding-top: 1rem;
+    }
+    .header h1 {
+      font-size: 1.8rem;
+      color: var(--red-accent);
+      font-weight: 800;
+    }
+    .header p {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      margin-top: 0.25rem;
+    }
+    .card {
+      background: var(--card-sand);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 15px rgba(61, 43, 31, 0.08);
+      margin-bottom: 1.25rem;
+    }
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    .form-group label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 0.4rem;
+    }
+    .input-field {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1.5px solid var(--border-color);
+      border-radius: 10px;
+      font-size: 1rem;
+      background: #FFF;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .input-field:focus {
+      border-color: var(--gold-accent);
+    }
+    .btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--red-accent);
+      color: #FFF;
+      font-weight: 700;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .btn:active {
+      transform: scale(0.98);
+    }
+    .btn:hover {
+      background: #621818;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1.5px solid var(--red-accent);
+      color: var(--red-accent);
+      width: auto;
+      padding: 0.4rem 1rem;
+      font-size: 0.9rem;
+    }
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 0.5rem;
+    }
+    .tab-btn {
+      padding: 0.5rem 1rem;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      color: var(--brown-primary);
+      cursor: pointer;
+      border-radius: 8px;
+    }
+    .tab-btn.active {
+      background: var(--gold-accent);
+      color: #FFF;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1f));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .stat-card {
+      background: #FFF;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat-val {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--red-accent);
+    }
+    .stat-label {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin-top: 0.2rem;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #FFF;
+      border-radius: 10px;
+      overflow: hidden;
+      font-size: 0.9rem;
+    }
+    th, td {
+      padding: 0.75rem;
+      text-align: right;
+      border-bottom: 1px solid var(--border-color);
+    }
+    th {
+      background: #F9EED9;
+      font-weight: 700;
+    }
+    .hidden {
+      display: none !important;
+    }
+    .error-msg {
+      color: #D32F2F;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div class="header">
+      <h1>🏺 لوحة تحكم ميسوري</h1>
+      <p>متابعة بيانات الحسابات ونسبة التقدم بسهولة</p>
+    </div>
+
+    <!-- شاشة تسجيل الدخول -->
+    <div id="loginSection" class="card">
+      <h2 style="font-size: 1.2rem; margin-bottom: 1rem; text-align: center;">تسجيل دخول الأدمن</h2>
+      <div class="form-group">
+        <label>البريد الإلكتروني</label>
+        <input type="email" id="emailInput" class="input-field" placeholder="omar.mahmoud.ahmed.01@gmail.com" value="omar.mahmoud.ahmed.01@gmail.com">
+      </div>
+      <div class="form-group">
+        <label>كلمة السر</label>
+        <input type="password" id="passwordInput" class="input-field" placeholder="••••••••">
+      </div>
+      <button class="btn" onclick="handleLogin()">دخول اللوحة</button>
+      <div id="loginError" class="error-msg hidden"></div>
+    </div>
+
+    <!-- شاشة الداشبورد الرئيسية -->
+    <div id="dashboardSection" class="hidden">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+        <span id="userGreeting" style="font-weight: 700;">أهلاً بك</span>
+        <div>
+          <button class="btn btn-secondary" onclick="loadData()">تحديث البيانات 🔄</button>
+          <button class="btn btn-secondary" onclick="handleLogout()" style="margin-right: 0.5rem;">خروج 🚪</button>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-val" id="totalUsersVal">0</div>
+          <div class="stat-label">إجمالي المستخدمين</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="activeUsersVal">0</div>
+          <div class="stat-label">المستخدمين النشطين</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-val" id="completedStagesVal">0</div>
+          <div class="stat-label">المراحل المكتملة</div>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('usersTab', this)">المستخدمين</button>
+        <button class="tab-btn" onclick="switchTab('progressTab', this)">التقدم الفردي</button>
+      </div>
+
+      <div id="usersTab" class="card">
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>اسم المستخدم</th>
+                <th>العمر</th>
+                <th>إجمالي النقاط</th>
+                <th>تاريخ الانضمام</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody">
+              <tr><td colspan="4" style="text-align: center;">جاري التحميل...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="progressTab" class="card hidden">
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>معرف المستخدم</th>
+                <th>المستوى</th>
+                <th>المرحلة</th>
+                <th>أفضل نتيجة</th>
+                <th>مكتملة؟</th>
+              </tr>
+            </thead>
+            <tbody id="progressTableBody">
+              <tr><td colspan="5" style="text-align: center;">جاري التحميل...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    const SUPABASE_URL = "https://nblmltwjkqlcixguiioq.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5ibG1sdHdqa3FsY2l4Z3VpaW9xIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ2MjgyMjgsImV4cCI6MjEwMDIwNDIyOH0.MZ1Zwv5xMzN7FUENYpMenr_NKmwZiOcyesNpYNvQsbg";
+
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function handleLogin() {
+      const email = document.getElementById('emailInput').value.trim();
+      const password = document.getElementById('passwordInput').value.trim();
+      const errorDiv = document.getElementById('loginError');
+      errorDiv.classList.add('hidden');
+
+      if (!email || !password) {
+        errorDiv.innerText = "يرجى إدخال البريد وكلمة السر";
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+      if (error) {
+        errorDiv.innerText = "فشل تسجيل الدخول: " + error.message;
+        errorDiv.classList.remove('hidden');
+        return;
+      }
+
+      showDashboard(data.user);
+    }
+
+    async function handleLogout() {
+      await supabase.auth.signOut();
+      document.getElementById('loginSection').classList.remove('hidden');
+      document.getElementById('dashboardSection').classList.add('hidden');
+    }
+
+    function showDashboard(user) {
+      document.getElementById('loginSection').classList.add('hidden');
+      document.getElementById('dashboardSection').classList.remove('hidden');
+      document.getElementById('userGreeting').innerText = "أهلاً بك: " + (user.email || 'الأدمن');
+      loadData();
+    }
+
+    async function loadData() {
+      // جلب البروفايلات
+      const { data: profiles, error: pErr } = await supabase
+        .from('profiles')
+        .select('id, username, age, total_points, created_at')
+        .order('total_points', { ascending: false });
+
+      if (profiles) {
+        document.getElementById('totalUsersVal').innerText = profiles.length;
+        renderUsers(profiles);
+      }
+
+      // جلب تقدم المستخدمين
+      const { data: progress, error: prErr } = await supabase
+        .from('user_progress')
+        .select('user_id, level_id, stage_id, is_completed, best_score');
+
+      if (progress) {
+        const completed = progress.filter(p => p.is_completed).length;
+        document.getElementById('completedStagesVal').innerText = completed;
+        const uniqueUsers = new Set(progress.map(p => p.user_id)).size;
+        document.getElementById('activeUsersVal').innerText = uniqueUsers;
+        renderProgress(progress);
+      }
+    }
+
+    function renderUsers(profiles) {
+      const tbody = document.getElementById('usersTableBody');
+      if (!profiles.length) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">لا يوجد مستخدمين بعد</td></tr>';
+        return;
+      }
+      tbody.innerHTML = profiles.map(p => `
+        <tr>
+          <td><strong>${p.username || 'بدون اسم'}</strong></td>
+          <td>${p.age || '-'}</td>
+          <td>${p.total_points || 0}</td>
+          <td>${new Date(p.created_at).toLocaleDateString('ar-EG')}</td>
+        </tr>
+      `).join('');
+    }
+
+    function renderProgress(progress) {
+      const tbody = document.getElementById('progressTableBody');
+      if (!progress.length) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center;">لا يوجد بيانات تقدم بعد</td></tr>';
+        return;
+      }
+      tbody.innerHTML = progress.slice(0, 50).map(p => `
+        <tr>
+          <td style="font-family: monospace; font-size: 0.8rem;">${p.user_id.substring(0, 8)}...</td>
+          <td>المستوى ${p.level_id}</td>
+          <td>المرحلة ${p.stage_id}</td>
+          <td>${p.best_score || 0}</td>
+          <td>${p.is_completed ? '✅ نعم' : '⏳ قيد التقدم'}</td>
+        </tr>
+      `).join('');
+    }
+
+    function switchTab(tabId, btn) {
+      document.getElementById('usersTab').classList.add('hidden');
+      document.getElementById('progressTab').classList.add('hidden');
+      document.getElementById(tabId).classList.remove('hidden');
+
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    }
+
+    // فحص الجلسة عند الفتح تلقائياً
+    window.addEventListener('DOMContentLoaded', async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session && session.user) {
+        showDashboard(session.user);
+      }
+    });
+  </script>
+</body>
+</html>

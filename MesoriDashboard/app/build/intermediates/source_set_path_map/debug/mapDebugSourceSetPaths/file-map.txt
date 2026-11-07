@@ -1,0 +1,51 @@
+com.omarmahmoud.mesori.dashboard.app-activity-1.9.3-0 C:\Users\PCM\.gradle\caches\8.14.3\transforms\06679ae54fa2ec61e82344c9711b4e18\transformed\activity-1.9.3\res
+com.omarmahmoud.mesori.dashboard.app-material-icons-core-release-1 C:\Users\PCM\.gradle\caches\8.14.3\transforms\0805abaec00e9dc4d85833eba1b82183\transformed\material-icons-core-release\res
+com.omarmahmoud.mesori.dashboard.app-startup-runtime-1.1.1-2 C:\Users\PCM\.gradle\caches\8.14.3\transforms\09575f88d2c6cc8e1d58639e8f5050f8\transformed\startup-runtime-1.1.1\res
+com.omarmahmoud.mesori.dashboard.app-ui-unit-release-3 C:\Users\PCM\.gradle\caches\8.14.3\transforms\09da73cab7f85ac63a9166d7cf4ea81f\transformed\ui-unit-release\res
+com.omarmahmoud.mesori.dashboard.app-material-ripple-release-4 C:\Users\PCM\.gradle\caches\8.14.3\transforms\189b311d000e0df709501b1a27fed812\transformed\material-ripple-release\res
+com.omarmahmoud.mesori.dashboard.app-lifecycle-process-2.8.3-5 C:\Users\PCM\.gradle\caches\8.14.3\transforms\18efdae3bfbf4f7121d1ba2b840b63e9\transformed\lifecycle-process-2.8.3\res
+com.omarmahmoud.mesori.dashboard.app-animation-core-release-6 C:\Users\PCM\.gradle\caches\8.14.3\transforms\1cf764d40f3338a8f55fa84f65964b3f\transformed\animation-core-release\res
+com.omarmahmoud.mesori.dashboard.app-ui-release-7 C:\Users\PCM\.gradle\caches\8.14.3\transforms\222618f6fcc74cd579947aefa3d85070\transformed\ui-release\res
+com.omarmahmoud.mesori.dashboard.app-animation-release-8 C:\Users\PCM\.gradle\caches\8.14.3\transforms\2b36604ddceb02b81300413fb39905c6\transformed\animation-release\res
+com.omarmahmoud.mesori.dashboard.app-customview-poolingcontainer-1.0.0-9 C:\Users\PCM\.gradle\caches\8.14.3\transforms\33295dd95c29faa6bf6a75dd5a2caf85\transformed\customview-poolingcontainer-1.0.0\res
+com.omarmahmoud.mesori.dashboard.app-runtime-release-10 C:\Users\PCM\.gradle\caches\8.14.3\transforms\3744e2824565b88fb822fec6b0106759\transformed\runtime-release\res
+com.omarmahmoud.mesori.dashboard.app-lifecycle-viewmodel-savedstate-2.8.3-11 C:\Users\PCM\.gradle\caches\8.14.3\transforms\3fe04d2ffaedced6eb7df7aa37b71dee\transformed\lifecycle-viewmodel-savedstate-2.8.3\res
+com.omarmahmoud.mesori.dashboard.app-annotation-experimental-1.4.1-12 C:\Users\PCM\.gradle\caches\8.14.3\transforms\4965b3d247df60c658b1ec345684bb19\transformed\annotation-experimental-1.4.1\res
+com.omarmahmoud.mesori.dashboard.app-ui-util-release-13 C:\Users\PCM\.gradle\caches\8.14.3\transforms\4bfd0bc45cb2f740730f999f22c63da3\transformed\ui-util-release\res
+com.omarmahmoud.mesori.dashboard.app-security-crypto-1.1.0-alpha06-14 C:\Users\PCM\.gradle\caches\8.14.3\transforms\4c1642b7fcba4ef5465eac4d11c1d246\transformed\security-crypto-1.1.0-alpha06\res
+com.omarmahmoud.mesori.dashboard.app-profileinstaller-1.3.1-15 C:\Users\PCM\.gradle\caches\8.14.3\transforms\4e77f6101dc94ed13fc82d888264cfaf\transformed\profileinstaller-1.3.1\res
+com.omarmahmoud.mesori.dashboard.app-lifecycle-runtime-compose-release-16 C:\Users\PCM\.gradle\caches\8.14.3\transforms\5104d3229945ce114f496d73e3740983\transformed\lifecycle-runtime-compose-release\res
+com.omarmahmoud.mesori.dashboard.app-lifecycle-runtime-ktx-release-17 C:\Users\PCM\.gradle\caches\8.14.3\transforms\53c1f882cd4e2d2cdaa0c6bdd706bc16\transformed\lifecycle-runtime-ktx-release\res
+com.omarmahmoud.mesori.dashboard.app-lifecycle-viewmodel-release-18 C:\Users\PCM\.gradle\caches\8.14.3\transforms\57a34f2385fe9844a8e2a70f7bed10c0\transformed\lifecycle-viewmodel-release\res
+com.omarmahmoud.mesori.dashboard.app-savedstate-1.2.1-19 C:\Users\PCM\.gradle\caches\8.14.3\transforms\61c45b7c29ac8a8160dea220b01d1a10\transformed\savedstate-1.2.1\res
+com.omarmahmoud.mesori.dashboard.app-ui-tooling-release-20 C:\Users\PCM\.gradle\caches\8.14.3\transforms\64271314a742a3e7e2e24707dcd85cea\transformed\ui-tooling-release\res
+com.omarmahmoud.mesori.dashboard.app-core-ktx-1.15.0-21 C:\Users\PCM\.gradle\caches\8.14.3\transforms\87ee40c73fa97bca120c2227b49ca370\transformed\core-ktx-1.15.0\res
+com.omarmahmoud.mesori.dashboard.app-ui-graphics-release-22 C:\Users\PCM\.gradle\caches\8.14.3\transforms\88ee93d8812899b8cc76e21350f05510\transformed\ui-graphics-release\res
+com.omarmahmoud.mesori.dashboard.app-lifecycle-viewmodel-ktx-2.8.3-23 C:\Users\PCM\.gradle\caches\8.14.3\transforms\8e6a432fad9f14751216f364da4fc75e\transformed\lifecycle-viewmodel-ktx-2.8.3\res
+com.omarmahmoud.mesori.dashboard.app-runtime-saveable-release-24 C:\Users\PCM\.gradle\caches\8.14.3\transforms\996d4a6b1ecbcdf46068fe670907e44b\transformed\runtime-saveable-release\res
+com.omarmahmoud.mesori.dashboard.app-savedstate-ktx-1.2.1-25 C:\Users\PCM\.gradle\caches\8.14.3\transforms\9b3d004a8ccfea5c1693d86e5a92bf65\transformed\savedstate-ktx-1.2.1\res
+com.omarmahmoud.mesori.dashboard.app-lifecycle-livedata-core-2.8.3-26 C:\Users\PCM\.gradle\caches\8.14.3\transforms\9c7258c98bd25d64ed76d27ed9dfc383\transformed\lifecycle-livedata-core-2.8.3\res
+com.omarmahmoud.mesori.dashboard.app-core-runtime-2.2.0-27 C:\Users\PCM\.gradle\caches\8.14.3\transforms\a8e06389c158bec1bbf2fd2289ee36af\transformed\core-runtime-2.2.0\res
+com.omarmahmoud.mesori.dashboard.app-ui-text-release-28 C:\Users\PCM\.gradle\caches\8.14.3\transforms\b0fafe2f1dffb7c7e29d9fc976f5496b\transformed\ui-text-release\res
+com.omarmahmoud.mesori.dashboard.app-graphics-path-1.0.1-29 C:\Users\PCM\.gradle\caches\8.14.3\transforms\b4c61893e7c40f5d4de251ec95a6c353\transformed\graphics-path-1.0.1\res
+com.omarmahmoud.mesori.dashboard.app-material-release-30 C:\Users\PCM\.gradle\caches\8.14.3\transforms\b4df1696e31c3b7ee29be75b36c33f10\transformed\material-release\res
+com.omarmahmoud.mesori.dashboard.app-foundation-layout-release-31 C:\Users\PCM\.gradle\caches\8.14.3\transforms\b84f3c033aa61ed9aa95973424853de1\transformed\foundation-layout-release\res
+com.omarmahmoud.mesori.dashboard.app-lifecycle-runtime-release-32 C:\Users\PCM\.gradle\caches\8.14.3\transforms\c94260c6d8e0ddfe0188ce39a3f02e95\transformed\lifecycle-runtime-release\res
+com.omarmahmoud.mesori.dashboard.app-foundation-release-33 C:\Users\PCM\.gradle\caches\8.14.3\transforms\cf2ee30cb0a6e78bb5f45759438990a8\transformed\foundation-release\res
+com.omarmahmoud.mesori.dashboard.app-material3-release-34 C:\Users\PCM\.gradle\caches\8.14.3\transforms\cfa1de27a5101614a2f90f7961f26591\transformed\material3-release\res
+com.omarmahmoud.mesori.dashboard.app-activity-ktx-1.9.3-35 C:\Users\PCM\.gradle\caches\8.14.3\transforms\d160a320f21b70e501809b626ca97214\transformed\activity-ktx-1.9.3\res
+com.omarmahmoud.mesori.dashboard.app-core-1.15.0-36 C:\Users\PCM\.gradle\caches\8.14.3\transforms\d9ca4548a4154ce2b6e68fda7a2385da\transformed\core-1.15.0\res
+com.omarmahmoud.mesori.dashboard.app-emoji2-1.3.0-37 C:\Users\PCM\.gradle\caches\8.14.3\transforms\dcb3758d07691c6f4e7c63e384538340\transformed\emoji2-1.3.0\res
+com.omarmahmoud.mesori.dashboard.app-activity-compose-1.9.3-38 C:\Users\PCM\.gradle\caches\8.14.3\transforms\e65a13471aeb85a04d12d57cbcb7b123\transformed\activity-compose-1.9.3\res
+com.omarmahmoud.mesori.dashboard.app-ui-tooling-preview-release-39 C:\Users\PCM\.gradle\caches\8.14.3\transforms\ec3e2565fa226e0df9f93106cb2fdb38\transformed\ui-tooling-preview-release\res
+com.omarmahmoud.mesori.dashboard.app-ui-geometry-release-40 C:\Users\PCM\.gradle\caches\8.14.3\transforms\f1204143cdc95874a477382d33a64ebb\transformed\ui-geometry-release\res
+com.omarmahmoud.mesori.dashboard.app-tracing-1.2.0-41 C:\Users\PCM\.gradle\caches\8.14.3\transforms\f16cd60da9c285663e62bdfffe75b263\transformed\tracing-1.2.0\res
+com.omarmahmoud.mesori.dashboard.app-ui-tooling-data-release-42 C:\Users\PCM\.gradle\caches\8.14.3\transforms\fad47291ae7574f2edef37e1676d23f8\transformed\ui-tooling-data-release\res
+com.omarmahmoud.mesori.dashboard.app-pngs-43 D:\Omar\Mesori V1\Mesori\MesoriDashboard\app\build\generated\res\pngs\debug
+com.omarmahmoud.mesori.dashboard.app-resValues-44 D:\Omar\Mesori V1\Mesori\MesoriDashboard\app\build\generated\res\resValues\debug
+com.omarmahmoud.mesori.dashboard.app-updated_navigation_xml-45 D:\Omar\Mesori V1\Mesori\MesoriDashboard\app\build\generated\updated_navigation_xml\debug
+com.omarmahmoud.mesori.dashboard.app-packageDebugResources-46 D:\Omar\Mesori V1\Mesori\MesoriDashboard\app\build\intermediates\incremental\debug\packageDebugResources\merged.dir
+com.omarmahmoud.mesori.dashboard.app-packageDebugResources-47 D:\Omar\Mesori V1\Mesori\MesoriDashboard\app\build\intermediates\incremental\debug\packageDebugResources\stripped.dir
+com.omarmahmoud.mesori.dashboard.app-debug-48 D:\Omar\Mesori V1\Mesori\MesoriDashboard\app\build\intermediates\merged_res\debug\mergeDebugResources
+com.omarmahmoud.mesori.dashboard.app-debug-49 D:\Omar\Mesori V1\Mesori\MesoriDashboard\app\src\debug\res
+com.omarmahmoud.mesori.dashboard.app-main-50 D:\Omar\Mesori V1\Mesori\MesoriDashboard\app\src\main\res

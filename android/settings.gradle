@@ -2,4 +2,7 @@ include ':app'
 include ':capacitor-cordova-android-plugins'
 project(':capacitor-cordova-android-plugins').projectDir = new File('./capacitor-cordova-android-plugins/')
 
+include ':MesoriDashboard:app'
+project(':MesoriDashboard:app').projectDir = new File('../MesoriDashboard/app')
+
 apply from: 'capacitor.settings.gradle'
