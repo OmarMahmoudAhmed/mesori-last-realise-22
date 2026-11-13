@@ -37,6 +37,42 @@
       rel="stylesheet"
     />
 
+    <!--
+      دعم الارتفاع الديناميكي على نسخة الويب فقط:
+      100dvh بيتحسب صح لما شريط المتصفح يظهر/يختفي.
+      الكلاس web-build بيتضاف بالسكربت اللي تحت، ومش بيتضاف في تطبيق الأندرويد.
+    -->
+    <style>
+      html.web-build,
+      html.web-build body,
+      html.web-build #root {
+        min-height: 100vh;
+        min-height: 100dvh;
+      }
+    </style>
+
+    <!--
+      تفعيل وضع التطبيق المثبت (PWA) على الويب فقط:
+      - بيضيف كلاس web-build للـ html
+      - بيسجل Service Worker (sw.js) عشان Chrome يعتبر الموقع قابل للتثبيت
+      - مش بيشتغل في تطبيق Capacitor (أندرويد/iOS) ولا على localhost
+    -->
+    <script>
+      (function () {
+        var native = !!(window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform());
+        var local = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+        if (native || local) return;
+
+        document.documentElement.classList.add('web-build');
+
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function () {
+            navigator.serviceWorker.register('/sw.js').catch(function () {});
+          });
+        }
+      })();
+    </script>
+
     <title>ميسوري | اكتشف مصر القديمة</title>
   </head>
   <body>
