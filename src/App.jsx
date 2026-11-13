@@ -39,6 +39,7 @@ import { AppProvider, useApp } from './context/AppContext';
 import { setSoundEnabled } from './lib/sounds';
 import { isNative } from './lib/platform';
 import IosWebExtras from './components/shared/IosWebExtras';
+import WebAnalyticsTracker from './components/shared/WebAnalyticsTracker';
 import { scheduleInactivityReminder, cancelInactivityReminder } from './lib/notifications';
 
 /* استيراد جميع الصفحات */
@@ -87,9 +88,15 @@ function SplashLoader() {
 /*
  * مسار غير المسجّلين: بوابة السن ← شاشة الدخول. الجهاز اللي أجاب بسن
  * أقل من الحد بيفضل على شاشة "غير متاح" (راجع src/lib/ageGate.js).
+ * البوابة بتشتغل على تطبيق الأندرويد (Capacitor) بس، ونسخة الويب بتدخل
+ * على شاشة الدخول على طول. الحماية من السن على السيرفر (enforce_min_age)
+ * بتفضل شغّالة على الاتنين.
  */
 function LoggedOutFlow() {
-  const [step, setStep] = useState(() => (isAgeBlocked() ? 'blocked' : hasPassedAgeGate() ? 'login' : 'gate'));
+  const [step, setStep] = useState(() => {
+    if (!isNative()) return 'login';
+    return isAgeBlocked() ? 'blocked' : hasPassedAgeGate() ? 'login' : 'gate';
+  });
   if (step === 'blocked') return <AgeBlockedScreen />;
   if (step === 'gate') return <AgeGate onPassed={() => setStep('login')} onBlocked={() => setStep('blocked')} />;
   return <LoginPage />;
@@ -256,6 +263,7 @@ function App() {
     <AppProvider>
       <AppContent />
       <IosWebExtras />
+      <WebAnalyticsTracker />
     </AppProvider>
   );
 }
