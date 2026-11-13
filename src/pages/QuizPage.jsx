@@ -569,7 +569,7 @@ function QuizPage() {
 
 
   return (
-    <AppWrapper>
+    <AppWrapper fullHeight>
       <Header showBack={true} onBack={handleBackPress} />
 
       {isFinished ? (
@@ -578,7 +578,7 @@ function QuizPage() {
          * شاشة النتيجة النهائية
          * ===================================================== */
         <main
-          className="flex-1 overflow-y-auto app-scroll flex flex-col items-center justify-center px-6"
+          className="flex-1 min-h-0 overflow-y-auto app-scroll flex flex-col items-center justify-center px-6"
           style={{ paddingBottom: '32px' }}
         >
           <div className="w-full flex flex-col items-center animate-fade-in-up">
@@ -689,8 +689,9 @@ function QuizPage() {
         /* =====================================================
          * شاشة السؤال الحالي
          * ===================================================== */
+        <>
         <main
-          className="flex-1 overflow-y-auto overflow-x-hidden app-scroll"
+          className="flex-1 min-h-0 overflow-y-auto overflow-x-hidden app-scroll"
           style={{ paddingBottom: '32px' }}
         >
 
@@ -815,18 +816,27 @@ function QuizPage() {
                 )}
               </div>
 
-              <button
-                onClick={handleNext}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-white press-effect no-tap-highlight"
-                style={{ backgroundColor: '#2D6A3F', fontFamily: "'Cairo', sans-serif" }}
-              >
-                {isLastQuestion ? 'عرض النتيجة' : 'السؤال التالي'}
-                <i className="fi fi-rr-arrow-small-right" aria-hidden="true" style={{ fontSize: '13px', color: '#FFFFFF' }} />
-              </button>
             </div>
           )}
 
         </main>
+
+        {isAnswered && (
+          <div
+            className="flex-shrink-0 px-4 pt-2"
+            style={{ paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))' }}
+          >
+                  <button
+                    onClick={handleNext}
+                    className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-white press-effect no-tap-highlight"
+                    style={{ backgroundColor: '#2D6A3F', fontFamily: "'Cairo', sans-serif" }}
+                  >
+                    {isLastQuestion ? 'عرض النتيجة' : 'السؤال التالي'}
+                    <i className="fi fi-rr-arrow-small-right" aria-hidden="true" style={{ fontSize: '13px', color: '#FFFFFF' }} />
+                  </button>
+          </div>
+        )}
+        </>
       )}
 
 

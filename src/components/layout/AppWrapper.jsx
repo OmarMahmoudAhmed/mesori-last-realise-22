@@ -30,7 +30,7 @@
 import React, { useEffect } from 'react';
 import { playSound } from '../../lib/sounds';
 
-function AppWrapper({ children }) {
+function AppWrapper({ children, fullHeight = false }) {
 
   /*
    * صوت نقرة عام — نقطة واحدة تغطي كل التطبيق بدل ما نضيف
@@ -79,13 +79,13 @@ function AppWrapper({ children }) {
         * overflow-x-hidden = يمنع التمرير الأفقي العرضي
         */}
       <div
-        className="
+        className={`
           w-full max-w-md md:max-w-none
-          min-h-dvh
+          ${fullHeight ? 'h-dvh' : 'min-h-dvh'}
           flex flex-col
           relative
           overflow-x-hidden
-        "
+        `}
         style={{
           backgroundColor: '#E5C497', /* لون حافة صورة الخلفية السفلية (يمنع الفراغ تحت الصورة) */ /* لون الرمال الفرعونية — يظهر كخلفية احتياطية طالما الصورة غير مُضافة بعد */
 
