@@ -91,7 +91,7 @@ const LoginPage = () => {
       root.style.backgroundSize = 'cover';
       root.style.backgroundPosition = 'center';
       root.style.backgroundRepeat = 'no-repeat';
-      root.style.minHeight = '100vh';
+      root.style.minHeight = '100dvh';
     }
 
     // التنظيف عند إزالة المكون (إلغاء الخلفية)
