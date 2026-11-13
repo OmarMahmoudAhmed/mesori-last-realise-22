@@ -19,10 +19,12 @@ const SHOWN_PAGE = 'home';
 /* مدة الانتظار قبل ما يظهر الكارت (عشان ما يبانش فجأة مع أول تحميل) */
 const SHOW_DELAY_MS = 2500;
 
-function ShareIcon() {
+/* أيقونة «إضافة إلى الشاشة الرئيسية» (SVG Repo). الألوان بتتبع currentColor عشان تاخد لون الكارت */
+function HomeAddIcon() {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M12 3v12" /><path d="M8 7l4-4 4 4" /><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1" />
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path opacity="0.5" d="M2 12.2039C2 9.91549 2 8.77128 2.5192 7.82274C3.0384 6.87421 3.98695 6.28551 5.88403 5.10813L7.88403 3.86687C9.88939 2.62229 10.8921 2 12 2C13.1079 2 14.1106 2.62229 16.116 3.86687L18.116 5.10812C20.0131 6.28551 20.9616 6.87421 21.4808 7.82274C22 8.77128 22 9.91549 22 12.2039V13.725C22 17.6258 22 19.5763 20.8284 20.7881C19.6569 22 17.7712 22 14 22H10C6.22876 22 4.34315 22 3.17157 20.7881C2 19.5763 2 17.6258 2 13.725V12.2039Z" stroke="currentColor" strokeWidth="1.5" />
+      <path d="M15 14L12 14M12 14L9 14M12 14L12 11M12 14L12 17" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
     </svg>
   );
 }
@@ -75,7 +77,7 @@ export default function IosWebExtras() {
         >
           <p style={{ fontWeight: 800, fontSize: 15, marginBottom: 4 }}>ثبّت ميسوري على الآيفون</p>
           <p style={{ fontSize: 13.5 }}>
-            اضغط زر المشاركة <span style={{ display: 'inline-flex', verticalAlign: 'middle', color: '#805D1B' }}><ShareIcon /></span>
+            اضغط زر المشاركة <span style={{ display: 'inline-flex', verticalAlign: 'middle', color: '#805D1B' }}><HomeAddIcon /></span>
             {' '}في أسفل أو أعلى المتصفح، ثم اختر «إضافة إلى الشاشة الرئيسية» ليفتح التطبيق بملء الشاشة.
           </p>
           <button
