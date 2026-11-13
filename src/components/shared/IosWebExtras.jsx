@@ -101,7 +101,7 @@ export default function IosWebExtras() {
           <p style={{ fontWeight: 800, fontSize: 15, marginBottom: 4 }}>ثبّت ميسوري على الآيفون</p>
           <p style={{ fontSize: 13.5 }}>
             اضغط زر التثبيت <span style={{ display: 'inline-flex', verticalAlign: 'middle', color: '#805D1B' }}><HomeAddIcon /></span>
-            {' '}في أسفل أو أعلى المتصفح، ثم اختر «إضافة إلى الشاشة الرئيسية» ليفتح التطبيق بملء الشاشة.
+            {' '}في أسفل أو أعلى المتصفح، أو اختر «إضافة إلى الشاشة الرئيسية» ليفتح التطبيق بملء الشاشة.
           </p>
           <button
             type="button"
