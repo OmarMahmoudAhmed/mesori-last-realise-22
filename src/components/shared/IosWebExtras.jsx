@@ -3,10 +3,11 @@
  *
  *  1) وهي مثبّتة على الشاشة الرئيسية (standalone): شريط الحالة شفاف (black-translucent)
  *     لتصل الواجهة لحافة الشاشة (edge-to-edge) زي نسخة الأندرويد. أيقونات شريط الحالة
- *     في هذا الوضع بيضاء دائماً، فبنرسم تدرّجاً بنياً خفيفاً خلفها عشان تفضل مقروءة
+ *     في هذا الوضع بيضاء دائماً، فبنرسم تدرّجاً بنياً خفيف خلفها عشان تفضل مقروءة
  *     فوق خلفية الرمل الفاتحة. الارتفاع = منطقة الأمان العلوية فقط.
  *  2) وهي مفتوحة في سفاري (غير مثبّتة): تلميح صغير قابل للإغلاق يشرح «إضافة إلى الشاشة
- *     الرئيسية». لو أُغلق ما بيظهرش تاني لمدة 14 يوم.
+ *     الرئيسية». بيظهر مرة في كل جلسة جديدة (كل ما المتصفح يتقفل ويتفتح)، ومش بيتحفظ
+ *     بعد الإغلاق. الجلسة = sessionStorage، وبتتمسح لما تقفل تبويب سفاري.
  */
 import React, { useEffect, useState } from 'react';
 import { isIOSWeb, isStandalone } from '../../lib/platform';
@@ -15,16 +16,18 @@ import { useApp } from '../../context/AppContext';
 /* صفحات الامتحان: الكارت ما يظهرش فوقها عشان ما يغطيش زر المتابعة */
 const HIDDEN_PAGES = ['quiz', 'vs-match'];
 
-const DISMISS_KEY = 'mesori_ios_hint_dismissed_at';
-const SNOOZE_MS = 14 * 24 * 60 * 60 * 1000;
+const SESSION_KEY = 'mesori_ios_hint_session_shown';
 
-function recentlyDismissed() {
+function shownThisSession() {
   try {
-    const t = Number(localStorage.getItem(DISMISS_KEY));
-    return Number.isFinite(t) && t > 0 && Date.now() - t < SNOOZE_MS;
+    return sessionStorage.getItem(SESSION_KEY) === '1';
   } catch {
     return false;
   }
+}
+
+function markShownThisSession() {
+  try { sessionStorage.setItem(SESSION_KEY, '1'); } catch { /* التخزين غير متاح */ }
 }
 
 function ShareIcon() {
@@ -43,17 +46,17 @@ export default function IosWebExtras() {
   const [showHint, setShowHint] = useState(false);
 
   useEffect(() => {
-    if (!ios || standalone || recentlyDismissed()) return undefined;
-    const t = setTimeout(() => setShowHint(true), 2500);
+    if (!ios || standalone || shownThisSession()) return undefined;
+    const t = setTimeout(() => {
+      markShownThisSession();
+      setShowHint(true);
+    }, 2500);
     return () => clearTimeout(t);
   }, [ios, standalone]);
 
   if (!ios) return null;
 
-  const dismiss = () => {
-    try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch { /* التخزين غير متاح */ }
-    setShowHint(false);
-  };
+  const dismiss = () => setShowHint(false);
 
   return (
     <>
@@ -90,7 +93,7 @@ export default function IosWebExtras() {
             type="button"
             onClick={dismiss}
             style={{
-              marginTop: 10, padding: '8px 18px', borderRadius: 999, border: 0, cursor: 'pointer',
+              marginTop: 10, padding: '8px 18px', minHeight: 44, borderRadius: 999, border: 0, cursor: 'pointer',
               background: 'linear-gradient(to bottom,#D4AA45,#C8922A)', color: '#1A0F02',
               fontWeight: 800, fontSize: 14, fontFamily: 'inherit',
             }}
