@@ -36,6 +36,7 @@ export default function IosWebExtras() {
   const standalone = ios && isStandalone();
   const [armed, setArmed] = useState(false);
   const [dismissed, setDismissed] = useState(false);
+  const [entered, setEntered] = useState(false);
 
   /* مؤقّت واحد لكل تحميل للتطبيق */
   useEffect(() => {
@@ -44,10 +45,25 @@ export default function IosWebExtras() {
     return () => clearTimeout(t);
   }, [ios, standalone]);
 
+  const showHint = armed && !dismissed && onHome;
+
+  /* ظهور ناعم: الكارت بيتركّب الأول بشفافية صفر، وبعد فريم نرفع الشفافية */
+  useEffect(() => {
+    if (!showHint) {
+      setEntered(false);
+      return undefined;
+    }
+    const id = requestAnimationFrame(() => setEntered(true));
+    return () => cancelAnimationFrame(id);
+  }, [showHint]);
+
   if (!ios) return null;
 
-  const showHint = armed && !dismissed && onHome;
-  const dismiss = () => setDismissed(true);
+  /* اختفاء ناعم قبل ما الكارت يتشال فعلاً */
+  const dismiss = () => {
+    setEntered(false);
+    setTimeout(() => setDismissed(true), 400);
+  };
 
   return (
     <>
@@ -69,16 +85,23 @@ export default function IosWebExtras() {
           dir="rtl"
           style={{
             position: 'fixed', left: 12, right: 12, zIndex: 9998,
+            opacity: entered ? 1 : 0,
+            transform: entered ? 'translateY(0)' : 'translateY(16px)',
+            transition: 'opacity 400ms ease, transform 400ms ease',
             bottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)',
-            background: '#FDF3E3', color: '#3D2B1F', border: '1px solid rgba(128,93,27,0.45)',
-            borderRadius: 18, padding: '14px 16px', boxShadow: '0 12px 32px rgba(26,15,2,0.35)',
+            /* زجاجي خفيف: خلفية نصف شفافة مع ضبابية خفيفة، والنص يفضل واضح */
+            background: 'rgba(253,243,227,0.78)',
+            backdropFilter: 'blur(14px) saturate(160%)',
+            WebkitBackdropFilter: 'blur(14px) saturate(160%)',
+            color: '#3D2B1F', border: '1px solid rgba(255,255,255,0.45)',
+            borderRadius: 18, padding: '14px 16px', boxShadow: '0 8px 28px rgba(26,15,2,0.22)',
             fontFamily: "'Cairo', sans-serif", lineHeight: 1.7,
           }}
         >
           <p style={{ fontWeight: 800, fontSize: 15, marginBottom: 4 }}>ثبّت ميسوري على الآيفون</p>
           <p style={{ fontSize: 13.5 }}>
             اضغط زر التثبيت <span style={{ display: 'inline-flex', verticalAlign: 'middle', color: '#805D1B' }}><HomeAddIcon /></span>
-            {' '}في أسفل أو أعلى المتصفح، ثم اختر «إضافة إلى الشاشة الرئيسية» ليفتح التطبيق بملء الشاشة.
+            {' '}في أسفل أو أعلى المتصفح، أو اختر «إضافة إلى الشاشة الرئيسية» ليفتح التطبيق بملء الشاشة.
           </p>
           <button
             type="button"
