@@ -13,6 +13,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useApp } from '../../context/AppContext';
+import { isNative } from '../../lib/platform';
 
 const IDLE_MS = 3000;
 const DIMMED_OPACITY = 0.35;
@@ -23,9 +24,25 @@ const reduceMotion =
   window.matchMedia &&
   window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+/*
+ * مسافة الاحتياطي أسفل الأيقونات (الجزء الثابت من padding-bottom):
+ *
+ * - أندرويد (Capacitor / edge-to-edge): القيمة الأصلية كما هي = 48px
+ *   الأصل في الكود: calc(0.5rem + max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px), 48px))
+ *   ⚠️ ماتغيّرهاش دي عشان ما تأثرش تصميم الأندرويد.
+ *
+ * - ويب (المتصفح على الموبايل): 16px بدل 48px.
+ *   السبب: شريط المتصفح بيحتل المساحة اللي كانت الـ 48px بتحجزها، فالأيقونات كانت بتطلع لفوق.
+ *   الرقم ده قابل للتعديل: زوّده لو عايز تنزل أكتر، وقلله لو نزلت زيادة.
+ */
+const ANDROID_BOTTOM_FALLBACK_PX = 48;
+const WEB_BOTTOM_FALLBACK_PX = 16;
+
 function BottomNav({ activePage = 'home' }) {
   const { navigateTo } = useApp();
   const [dimmed, setDimmed] = useState(false);
+  const bottomFallbackPx = isNative() ? ANDROID_BOTTOM_FALLBACK_PX : WEB_BOTTOM_FALLBACK_PX;
+  const navBottomPadding = `calc(0.5rem + max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px), ${bottomFallbackPx}px))`;
 
   /* مؤقت الخفوت: يُعاد ضبطه مع كل تفاعل، ويُعاد أيضاً عند تغيير الصفحة */
   useEffect(() => {
@@ -70,7 +87,7 @@ function BottomNav({ activePage = 'home' }) {
     >
       <div
         className="relative grid grid-cols-3 px-4 pt-2 pb-[56px]"
-        style={{ paddingBottom: 'calc(0.5rem + max(env(safe-area-inset-bottom, 0px), var(--safe-area-inset-bottom, 0px), 48px))' }}
+        style={{ paddingBottom: navBottomPadding }}
       >
         {/* المؤشر المنزلق: عرضه عمود واحد، ويتحرك بمقدار index * 100% */}
         <span
