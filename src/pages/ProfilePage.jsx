@@ -112,7 +112,7 @@ function ProfilePage() {
 
   const handleShare = async () => {
     const shareText = 'بلعب ميسوري وبتعلّم عن مصر القديمة بطريقة ممتعة! جرّبه أنت كمان 🏺';
-    const shareUrl = window.location.origin;
+    const shareUrl = window.location.origin + import.meta.env.BASE_URL.replace(/\/$/, '');
 
     if (navigator.share) {
       try {

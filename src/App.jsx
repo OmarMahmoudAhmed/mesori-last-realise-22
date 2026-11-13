@@ -31,12 +31,14 @@
  * =====================================================
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { App as CapacitorApp } from '@capacitor/app';
 
 /* استيراد مزود البيانات والـ Hook */
 import { AppProvider, useApp } from './context/AppContext';
 import { setSoundEnabled } from './lib/sounds';
+import { isNative } from './lib/platform';
+import IosWebExtras from './components/shared/IosWebExtras';
 import { scheduleInactivityReminder, cancelInactivityReminder } from './lib/notifications';
 
 /* استيراد جميع الصفحات */
@@ -144,6 +146,32 @@ function AppContent() {
   }, [goBack, navHistory]);
 
   /*
+   * زر/إيماءة الرجوع على الويب (iPhone: السحب من الحافة، أو زر الرجوع في المتصفح):
+   * نفس سلوك زر الرجوع في الأندرويد — يرجع صفحة داخل التطبيق، ويخرج فقط من الصفحة الأولى.
+   * بنسبق مدخل تاريخ "حارس" عشان الرجوع يقع داخل التطبيق بدل ما يغادره.
+   * (على Capacitor ده مش بيشتغل: backButton الأصلي فوق هو اللي بيتولّى).
+   */
+  const navLenRef = useRef(navHistory.length);
+  const goBackRef = useRef(goBack);
+  useEffect(() => { navLenRef.current = navHistory.length; }, [navHistory]);
+  useEffect(() => { goBackRef.current = goBack; }, [goBack]);
+  useEffect(() => {
+    if (isNative()) return undefined;
+    const pushGuard = () => { try { window.history.pushState({ mesori: true }, ''); } catch { /* غير متاح */ } };
+    pushGuard();
+    const onPop = () => {
+      if (navLenRef.current > 1) {
+        goBackRef.current();
+        pushGuard();
+      } else {
+        window.history.back(); // الصفحة الأولى: نخرج فعلاً (زي الأندرويد)
+      }
+    };
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
+
+  /*
    * بوابة تسجيل الدخول: بالترتيب —
    * 1) لسه بنفحص هل فيه جلسة محفوظة أصلاً؟ (لحظة واحدة عند فتح التطبيق)
    * 2) مفيش جلسة → صفحة الدخول/التسجيل
@@ -227,6 +255,7 @@ function App() {
      */
     <AppProvider>
       <AppContent />
+      <IosWebExtras />
     </AppProvider>
   );
 }

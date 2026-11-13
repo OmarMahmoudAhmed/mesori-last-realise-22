@@ -1,3 +1,4 @@
+import { asset } from '../../lib/assetUrl';
 /*
  * =====================================================
  * BadgeIcon.jsx - عرض أيقونة أي شارة
@@ -15,7 +16,7 @@ export function BadgeIcon({ icon, size = 28, color = '#C8922A', locked = false }
     const filename = icon.slice('badge:'.length);
     return (
       <img
-        src={`/assets/icons/badges/${filename}`}
+        src={asset(`/assets/icons/badges/${filename}`)}
         alt=""
         aria-hidden="true"
         style={{ width: size, height: size, opacity: locked ? 0.35 : 1, filter: locked ? 'grayscale(1)' : 'none' }}

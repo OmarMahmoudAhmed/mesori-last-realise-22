@@ -1,3 +1,4 @@
+import { asset } from '../../lib/assetUrl';
 /*
  * =====================================================
  * LevelCard.jsx - بطاقة المستوى الواحد (تصميم جديد فاتح)
@@ -56,7 +57,7 @@ function LevelCard({ level }) {
 
         {!level.isUnlocked && (
           <img
-            src="/assets/icons/badges/lock.webp"
+            src={asset('/assets/icons/badges/lock.webp')}
             alt="مقفول"
             width={14}
             height={14}

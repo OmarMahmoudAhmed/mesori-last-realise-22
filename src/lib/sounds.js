@@ -1,3 +1,4 @@
+import { asset } from './assetUrl';
 /*
  * =====================================================
  * sounds.js - نظام تأثيرات صوتية خفيف للتطبيق
@@ -19,12 +20,12 @@
  */
 
 const SOUND_FILES = {
-  click:   '/sounds/Click.mp3',
-  correct: '/sounds/Correct.mp3',
-  wrong:   '/sounds/Wrong.mp3',
-  win:     '/sounds/Win.mp3',
-  loss:    '/sounds/Loss.mp3',
-  draw:    '/sounds/Draw.mp3',
+  click:   asset('/sounds/Click.mp3'),
+  correct: asset('/sounds/Correct.mp3'),
+  wrong:   asset('/sounds/Wrong.mp3'),
+  win:     asset('/sounds/Win.mp3'),
+  loss:    asset('/sounds/Loss.mp3'),
+  draw:    asset('/sounds/Draw.mp3'),
 };
 
 // مستويات صوت افتراضية — النقرة أخفت لأنها بتتكرر كتير، لحظات
@@ -38,11 +39,72 @@ const VOLUME = {
   draw:    0.55,
 };
 
+import { isIOS, isNative } from './platform';
+
 let soundEnabled = true;
 
 /* بينادى عليها App.jsx كل ما isSoundOn يتغيّر من الإعدادات */
 export function setSoundEnabled(enabled) {
   soundEnabled = enabled;
+}
+
+/*
+ * iPhone/iPad (نسخة الويب): Safari بيتجاهل audio.volume (الصوت دايماً 100%)، فالنقرة
+ * اللي مفروض تكون 35% بتطلع عالية. الحل: Web Audio API مع GainNode، وبنفك تشفير الملفات
+ * مسبقاً عشان التشغيل يبقى فوري. السياق بيتفعّل عند أول لمسة (شرط iOS).
+ * على الأندرويد (Capacitor) والمتصفحات الأخرى: نفس السلوك القديم بدون أي تغيير.
+ */
+const useWebAudio = () =>
+  !isNative() && isIOS() && typeof window !== 'undefined' && !!(window.AudioContext || window.webkitAudioContext);
+
+let audioCtx = null;
+const buffers = {};
+const loading = {};
+
+function getCtx() {
+  if (!audioCtx) {
+    const AC = window.AudioContext || window.webkitAudioContext;
+    audioCtx = new AC();
+  }
+  return audioCtx;
+}
+
+function loadBuffer(key) {
+  if (buffers[key]) return Promise.resolve(buffers[key]);
+  if (loading[key]) return loading[key];
+  loading[key] = fetch(SOUND_FILES[key])
+    .then((r) => { if (!r.ok) throw new Error('missing'); return r.arrayBuffer(); })
+    .then((ab) => new Promise((res, rej) => getCtx().decodeAudioData(ab, res, rej)))
+    .then((b) => { buffers[key] = b; return b; })
+    .catch(() => { loading[key] = null; return null; }); // ملف ناقص/فشل: نتجاهل بهدوء
+  return loading[key];
+}
+
+const UNLOCK_EVENTS = ['touchend', 'pointerdown', 'click', 'keydown'];
+function unlock() {
+  try {
+    const c = getCtx();
+    if (c.state === 'suspended') c.resume();
+    Object.keys(SOUND_FILES).forEach((k) => { void loadBuffer(k); });
+    if (c.state === 'running') UNLOCK_EVENTS.forEach((e) => window.removeEventListener(e, unlock));
+  } catch { /* تجاهل */ }
+}
+if (useWebAudio()) UNLOCK_EVENTS.forEach((e) => window.addEventListener(e, unlock, { passive: true }));
+
+function playWebAudio(key) {
+  try {
+    const c = getCtx();
+    if (c.state === 'suspended') c.resume();
+    const buf = buffers[key];
+    if (!buf) { void loadBuffer(key); return; }
+    const src = c.createBufferSource();
+    src.buffer = buf;
+    const gain = c.createGain();
+    gain.gain.value = VOLUME[key] ?? 0.5;
+    src.connect(gain);
+    gain.connect(c.destination);
+    src.start(0);
+  } catch { /* تجاهل بهدوء */ }
 }
 
 // تحميل مسبق (cache) — عنصر Audio واحد لكل صوت، بيتعمله clone عند
@@ -62,6 +124,11 @@ function getBaseAudio(key) {
 export function playSound(key) {
   if (!soundEnabled) return;
   if (!SOUND_FILES[key]) return;
+
+  if (useWebAudio()) {
+    playWebAudio(key);
+    return;
+  }
 
   try {
     const node = getBaseAudio(key).cloneNode();

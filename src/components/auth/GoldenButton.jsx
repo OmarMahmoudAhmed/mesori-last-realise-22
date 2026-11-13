@@ -1,8 +1,9 @@
+import { asset } from '../../lib/assetUrl';
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
 /* أيقونة الجناحين الثابتة على جانبي نص الزر (بدل الأيقونة المرسومة يدوياً سابقاً) */
-const WINGS_ICON_SRC = '/assets/icons/badges/Mummy.svg';
+const WINGS_ICON_SRC = asset('/assets/icons/badges/Mummy.svg');
 
 /**
  * GoldenButton
