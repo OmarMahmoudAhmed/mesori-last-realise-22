@@ -29,6 +29,4 @@ Thumbs.db
 .vercel
 
 # env files — ignore everything except the placeholder template
-.env
-.env.*
-!.env.example
+
