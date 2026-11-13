@@ -110,18 +110,26 @@ function ProfilePage() {
     });
   }, []);
 
-  const handleShare = async () => {
-    const shareText = 'بلعب ميسوري وبتعلّم عن مصر القديمة بطريقة ممتعة! جرّبه أنت كمان 🏺';
-    const shareUrl = window.location.origin + import.meta.env.BASE_URL.replace(/\/$/, '');
+  /*
+   * لينك المشاركة ثابت = الموقع الرسمي.
+   * ⚠️ ماينفعش نستخدم window.location.origin: على الأندرويد (Capacitor) الـ origin
+   * بيكون https://localhost، وعلى التطوير localhost، فالناس كانت بتتشارك لينك مش شغال.
+   */
+  const SHARE_URL = 'https://mesori.app';
+  const SHARE_TEXT =
+    'بلعب ميسوري وبتعلّم عن تاريخ مصر القديمة بطريقة ممتعة وتفاعلية! 🏺\n' +
+    'جرّب أنت كمان وشوف قد إيه تعرف عن مصر القديمة 🏛️';
 
+  const handleShare = async () => {
     if (navigator.share) {
       try {
-        await navigator.share({ text: shareText, url: shareUrl });
+        await navigator.share({ text: SHARE_TEXT, url: SHARE_URL });
       } catch (err) {
         return; // المستخدم لغى المشاركة، مفيش داعي نكمل
       }
     } else {
-      window.open(`https://wa.me/?text=${encodeURIComponent(shareText + ' ' + shareUrl)}`, '_blank', 'noopener,noreferrer');
+      const message = `${SHARE_TEXT}\n${SHARE_URL}`;
+      window.open(`https://wa.me/?text=${encodeURIComponent(message)}`, '_blank', 'noopener,noreferrer');
     }
     trackShare();
   };
