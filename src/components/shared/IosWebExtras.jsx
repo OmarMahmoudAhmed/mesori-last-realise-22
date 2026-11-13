@@ -10,6 +10,10 @@
  */
 import React, { useEffect, useState } from 'react';
 import { isIOSWeb, isStandalone } from '../../lib/platform';
+import { useApp } from '../../context/AppContext';
+
+/* صفحات الامتحان: الكارت ما يظهرش فوقها عشان ما يغطيش زر المتابعة */
+const HIDDEN_PAGES = ['quiz', 'vs-match'];
 
 const DISMISS_KEY = 'mesori_ios_hint_dismissed_at';
 const SNOOZE_MS = 14 * 24 * 60 * 60 * 1000;
@@ -32,6 +36,8 @@ function ShareIcon() {
 }
 
 export default function IosWebExtras() {
+  const { currentPage } = useApp();
+  const hiddenHere = HIDDEN_PAGES.includes(currentPage);
   const ios = isIOSWeb();
   const standalone = ios && isStandalone();
   const [showHint, setShowHint] = useState(false);
@@ -62,7 +68,7 @@ export default function IosWebExtras() {
         />
       )}
 
-      {showHint && (
+      {showHint && !hiddenHere && (
         <div
           role="dialog"
           aria-label="تثبيت ميسوري على الشاشة الرئيسية"
@@ -78,7 +84,7 @@ export default function IosWebExtras() {
           <p style={{ fontWeight: 800, fontSize: 15, marginBottom: 4 }}>ثبّت ميسوري على الآيفون</p>
           <p style={{ fontSize: 13.5 }}>
             اضغط زر المشاركة <span style={{ display: 'inline-flex', verticalAlign: 'middle', color: '#805D1B' }}><ShareIcon /></span>
-            {' '}في أسفل أو أعلى سفاري، ثم اختر «إضافة إلى الشاشة الرئيسية» ليفتح التطبيق بملء الشاشة.
+            {' '}في أسفل أو أعلى المتصفح، ثم اختر «إضافة إلى الشاشة الرئيسية» ليفتح التطبيق بملء الشاشة.
           </p>
           <button
             type="button"

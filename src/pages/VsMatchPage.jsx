@@ -493,9 +493,9 @@ function VsMatchPage() {
   const timerColor = timeLeft <= 5 ? '#DC2626' : timeLeft <= 10 ? '#F59E0B' : '#2D6A3F';
 
   return (
-    <AppWrapper>
+    <AppWrapper fullHeight>
       <Header showBack={true} />
-      <main className="flex-1 flex flex-col px-5 pb-8" style={{ fontFamily: "'Cairo', sans-serif" }}>
+      <main className="flex-1 min-h-0 overflow-y-auto app-scroll flex flex-col px-5 pb-8" style={{ fontFamily: "'Cairo', sans-serif" }}>
 
         {/* شريط المعلومات: السؤال + العدّ التنازلي */}
         <div className="flex items-center justify-between mb-2">
@@ -557,18 +557,24 @@ function VsMatchPage() {
               })}
             </div>
 
-            {selectedIndex !== null && !hasSubmittedRef.current && (
-              <button
-                onClick={() => handleSubmit(false)}
-                className="w-full mt-6 py-3.5 rounded-2xl font-bold text-white"
-                style={{ backgroundColor: '#C8922A' }}
-              >
-                تأكيد الإجابة
-              </button>
-            )}
           </>
         )}
       </main>
+
+      {selectedIndex !== null && !hasSubmittedRef.current && (
+        <div
+          className="flex-shrink-0 px-5 pt-2"
+          style={{ paddingBottom: 'calc(16px + env(safe-area-inset-bottom, 0px))' }}
+        >
+          <button
+            onClick={() => handleSubmit(false)}
+            className="w-full py-3.5 rounded-2xl font-bold text-white"
+            style={{ backgroundColor: '#C8922A' }}
+          >
+            تأكيد الإجابة
+          </button>
+        </div>
+      )}
     </AppWrapper>
   );
 }
