@@ -6,29 +6,18 @@
  *     في هذا الوضع بيضاء دائماً، فبنرسم تدرّجاً بنياً خفيف خلفها عشان تفضل مقروءة
  *     فوق خلفية الرمل الفاتحة. الارتفاع = منطقة الأمان العلوية فقط.
  *  2) وهي مفتوحة في سفاري (غير مثبّتة): تلميح صغير قابل للإغلاق يشرح «إضافة إلى الشاشة
- *     الرئيسية». بيظهر مرة في كل جلسة جديدة (كل ما المتصفح يتقفل ويتفتح)، ومش بيتحفظ
- *     بعد الإغلاق. الجلسة = sessionStorage، وبتتمسح لما تقفل تبويب سفاري.
+ *     الرئيسية». بيظهر في الصفحة الرئيسية بس، في كل مرة يفتح فيها المستخدم التطبيق
+ *     (كل تحميل للصفحة)، ولو المستخدم قفله بزر «تمام» ما بيرجعش إلا لما يفتح التطبيق من جديد.
  */
 import React, { useEffect, useState } from 'react';
 import { isIOSWeb, isStandalone } from '../../lib/platform';
 import { useApp } from '../../context/AppContext';
 
-/* صفحات الامتحان: الكارت ما يظهرش فوقها عشان ما يغطيش زر المتابعة */
-const HIDDEN_PAGES = ['quiz', 'vs-match'];
+/* الكارت يظهر في الصفحة الرئيسية بس */
+const SHOWN_PAGE = 'home';
 
-const SESSION_KEY = 'mesori_ios_hint_session_shown';
-
-function shownThisSession() {
-  try {
-    return sessionStorage.getItem(SESSION_KEY) === '1';
-  } catch {
-    return false;
-  }
-}
-
-function markShownThisSession() {
-  try { sessionStorage.setItem(SESSION_KEY, '1'); } catch { /* التخزين غير متاح */ }
-}
+/* مدة الانتظار قبل ما يظهر الكارت (عشان ما يبانش فجأة مع أول تحميل) */
+const SHOW_DELAY_MS = 2500;
 
 function ShareIcon() {
   return (
@@ -40,23 +29,23 @@ function ShareIcon() {
 
 export default function IosWebExtras() {
   const { currentPage } = useApp();
-  const hiddenHere = HIDDEN_PAGES.includes(currentPage);
+  const onHome = currentPage === SHOWN_PAGE;
   const ios = isIOSWeb();
   const standalone = ios && isStandalone();
-  const [showHint, setShowHint] = useState(false);
+  const [armed, setArmed] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
+  /* مؤقّت واحد لكل تحميل للتطبيق */
   useEffect(() => {
-    if (!ios || standalone || shownThisSession()) return undefined;
-    const t = setTimeout(() => {
-      markShownThisSession();
-      setShowHint(true);
-    }, 2500);
+    if (!ios || standalone) return undefined;
+    const t = setTimeout(() => setArmed(true), SHOW_DELAY_MS);
     return () => clearTimeout(t);
   }, [ios, standalone]);
 
   if (!ios) return null;
 
-  const dismiss = () => setShowHint(false);
+  const showHint = armed && !dismissed && onHome;
+  const dismiss = () => setDismissed(true);
 
   return (
     <>
@@ -71,7 +60,7 @@ export default function IosWebExtras() {
         />
       )}
 
-      {showHint && !hiddenHere && (
+      {showHint && (
         <div
           role="dialog"
           aria-label="تثبيت ميسوري على الشاشة الرئيسية"
